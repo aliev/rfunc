@@ -1,0 +1,58 @@
+[project]
+name = "rfunc"
+version = "0.0.1"
+description = "rfunc is a lightweight client-server application that enables running Python functions remotely as if they were executed in the current interpreter."
+requires-python = ">=3.8"
+authors = [
+  { name="Ali Aliyev", email="ali@aliev.me" },
+]
+readme = "README.md"
+keywords = ["remote", "function", "asyncio"]
+classifiers = ['Development Status :: 5 - Production/Stable',
+               'Intended Audience :: Developers',
+               'Programming Language :: Python',
+               'License :: OSI Approved :: MIT License',
+               'Natural Language :: English',
+               'Operating System :: OS Independent',
+               'Programming Language :: Python',
+               'Programming Language :: Python :: 3',
+               'Programming Language :: Python :: 3.8',
+               'Programming Language :: Python :: 3.9',
+               'Programming Language :: Python :: 3.10',
+               'Framework :: AsyncIO',
+               'Topic :: Software Development :: Libraries :: Python Modules',
+               'Topic :: Utilities']
+dependencies = [
+  "typing_extensions",
+  "cloudpickle==2.2.0",
+  "Pebble==5.0.3",
+  "msgpack==1.0.5",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+  "wheel",
+  "twine",
+  "build",
+  "pytest",
+  "pytest-cov"
+]
+
+[tool.setuptools]
+packages = ["rfunc"]
+
+[project.urls]
+"Homepage" = "https://github.com/aliev/rfunc"
+"Bug Tracker" = "https://github.com/aliev/rfunc/issues"
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+warn_no_return = false
+disallow_untyped_defs = false
+allow_redefinition = true
+
+[tool.flake8]
+max-line-length = 120
