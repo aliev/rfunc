@@ -44,3 +44,34 @@ def fetch_http_page(host: str):
 result = fetch_http_page("https://google.com")
 print(result.status_code) # => 200
 ```
+
+## Using within asyncio
+
+`rfunc` can be useful in single-threaded asyncio applications (such as FastAPI), it allows you to move a blocking or CPU-intensive function to a process on a remote server. For example, the following code will not block the current thread:
+
+```python
+import asyncio
+
+
+@remote_function()
+async def counter():
+    counter = 0
+    while True:
+        counter += 1
+        if counter >= 10_000_000:
+            return counter
+
+
+async def another_async_func():
+    while True:
+        await asyncio.sleep(3)
+        print("HELLO")
+
+
+async def main():
+    await asyncio.gather(*[counter(), another_async_func()])
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
