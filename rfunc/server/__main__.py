@@ -6,6 +6,12 @@ from pebble import ProcessPool
 
 from .protocol import RFuncProtocol
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s,%(msecs)d %(levelname)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
+
 logger = logging.getLogger("rfunc")
 
 

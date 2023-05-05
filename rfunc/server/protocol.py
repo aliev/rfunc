@@ -1,7 +1,7 @@
 import asyncio
 import functools
 import logging
-from typing import TYPE_CHECKING
+from typing import cast
 
 import cloudpickle as pickle
 import msgpack
@@ -26,18 +26,17 @@ class RFuncProtocol(asyncio.Protocol):
         logger.info("%s connected", self.peername)
 
     def data_received(self, data: bytes):
-        if TYPE_CHECKING:
-            assert self.transport is not None
+        transport = cast(asyncio.Transport, self.transport)
 
         try:
             response: Response = msgpack.unpackb(data)
         except Exception:
             logger.error("%s cannot parse message", self.peername)
-            self.transport.write(pickle.dumps(MessageException("Cannot parse message")))
-            self.transport.write_eof()
+            transport.write(pickle.dumps(MessageException("Cannot parse message")))
+            transport.write_eof()
             return
 
-        on_done_ = functools.partial(on_done, transport=self.transport)
+        on_done_ = functools.partial(on_done, transport=transport)
 
         future = self.pool.schedule(
             on_handle,
